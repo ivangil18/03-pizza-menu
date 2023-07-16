@@ -68,13 +68,35 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
   return (
     <main className="menu">
-      <h2>Our Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      <h2>Nostro Menu</h2>
+
+      {pizzas.length > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaInfo={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're working on notro menu, please come back later :)</p>
+      )}
     </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <div className="pizza">
+      <img src={props.pizzaInfo.photoName} alt={props.pizzaInfo.name} />
+      <div>
+        <h3>{props.pizzaInfo.name}</h3>
+        <p>{props.pizzaInfo.ingredients}</p>
+        <p>{props.pizzaInfo.price}</p>
+      </div>
+    </div>
   );
 }
 
@@ -93,20 +115,22 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open!
+      {isOpen ? (
+        <div className="order">
+          <p>
+            We are open until {closeHour}.00. Please come to visit us or order
+            online
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          We're happy to welcome your between {openHour}:00 and {closeHour}:00
+        </p>
+      )}
     </footer>
   );
   //   return React.createElement("footer", null, "We are currently open");
-}
-
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
-  );
 }
 
 // React v18

@@ -72,14 +72,20 @@ function Menu() {
   // const pizzas = [];
   return (
     <main className="menu">
-      <h2>Nostro Menu</h2>
+      <h2>Menu</h2>
 
       {pizzas.length > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaInfo={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaInfo={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're working on notro menu, please come back later :)</p>
       )}
@@ -87,14 +93,14 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+function Pizza({ pizzaInfo }) {
   return (
-    <div className="pizza">
-      <img src={props.pizzaInfo.photoName} alt={props.pizzaInfo.name} />
+    <div className={`pizza ${pizzaInfo.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaInfo.photoName} alt={pizzaInfo.name} />
       <div>
-        <h3>{props.pizzaInfo.name}</h3>
-        <p>{props.pizzaInfo.ingredients}</p>
-        <p>{props.pizzaInfo.price}</p>
+        <h3>{pizzaInfo.name}</h3>
+        <p>{pizzaInfo.ingredients}</p>
+        <p>{pizzaInfo.soldOut ? "SOLD OUT" : pizzaInfo.price}</p>
       </div>
     </div>
   );
@@ -116,13 +122,7 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <div className="order">
-          <p>
-            We are open until {closeHour}.00. Please come to visit us or order
-            online
-          </p>
-          <button className="btn">Order</button>
-        </div>
+        <Order closeHour={closeHour} />
       ) : (
         <p>
           We're happy to welcome your between {openHour}:00 and {closeHour}:00
@@ -131,6 +131,18 @@ function Footer() {
     </footer>
   );
   //   return React.createElement("footer", null, "We are currently open");
+}
+
+function Order({ closeHour }) {
+  return (
+    <div className="order">
+      <p>
+        We are open until {closeHour}.00. Please come to visit us or order
+        online
+      </p>
+      <button className="btn">Order</button>
+    </div>
+  );
 }
 
 // React v18
